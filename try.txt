@@ -1,0 +1,62 @@
+A=[1 2; 3 1; 4 3; 0 1; 1 0];
+B=[40;30;60;0;0]
+C=[20 10]
+x1=0:max(B);
+x21=(B(1)-(A(1,1)*x1))/A(1,2);
+x22=(B(2)-(A(2,1)*x1))/A(2,2);
+x23=(B(3)-(A(3,1)*x1))/A(3,2);
+x21=max(0,x21);
+x22=max(0,x22);
+x23=max(0,x23);
+plot(x1,x21,x1,x22,x1,x23);
+title('');
+xlabel()
+ylabel()
+legends('','','')
+
+solu=[]
+for i=1:size(A,1)
+    A1=A(i,:)
+    B1=B(i,:)
+    for j=i+1:size(B,1)
+        A2=A(j,:)
+        B2=B(j,:)
+        A3=[A1;A2]
+        B3=[B1;B2]
+        X=A3\B3
+        solu=[solu X]
+    end
+end
+
+
+a=[2 3 -1 4;1 2 6 -7];
+b=[8;-3];
+n=size(a,2)
+m=size(a,1)
+c=[2 3 4 7];
+sol=[]
+if n>m
+    ncm=nchoosek(n,m)
+    p=nchoosek(1:n,m)
+    for i=1:ncm
+        y=zeros(1,n);
+        a1=a(:,p(i,:))
+        x=a1\b
+        if all(x>0)
+            y(:,p(i,:))=x;
+            sol=[sol;y];
+        end
+    end
+
+else
+    error('Not valid Condition')
+end
+
+
+obj=[];
+for i =1:size(sol,1)
+    obj(i,:)=sum(sol(i,:).*c);
+end
+A=max(obj);
+p1=find(obj==A)
+l=sol(p1,:)
